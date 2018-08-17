@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +13,7 @@ using TodoApp.Services;
 
 namespace TodoApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
