@@ -3,51 +3,63 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using TodoApp.DTO;
+using TodoApp.Options;
 using TodoApp.Services;
 
 namespace TodoApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IOptions<AppOptions> _appOptions;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IOptions<AppOptions> appOptions)
         {
             _authService = authService;
+            _appOptions = appOptions;
         }
 
-        // GET api/values
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]LoginModel user)
+        public IActionResult Login([FromBody]UserDto user)
         {
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            if (_authService.AreCredentialsValid(user.Input.Email, user.Input.Password))
+            if (!_authService.AreCredentialsValid(user)) return Unauthorized();
+
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appOptions.Value.JwtSecretKey));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _appOptions.Value.AppDns,
+                audience: _appOptions.Value.AppDns,
+                claims: new List<Claim>(),
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: signinCredentials
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return Ok(new { Token = tokenString });
+        }
+
+        [HttpPost, Route("register")]
+        public IActionResult Register([FromBody]UserDto user)
+        {
+            if (user == null)
             {
-                // TODO: Refactor this to a config file
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:44385",
-                    audience: "http://localhost:44385",
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddDays(1),
-                    signingCredentials: signinCredentials
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                return Ok(new { Token = tokenString });
+                return BadRequest("Invalid client request");
             }
 
-            return Unauthorized();
+            _authService.Register(user);
+            return Ok();
         }
     }
 }

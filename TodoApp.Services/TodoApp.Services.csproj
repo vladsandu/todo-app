@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TodoApp.DataAccess\TodoApp.DataAccess.csproj" />
     <ProjectReference Include="..\TodoApp.DTO\TodoApp.DTO.csproj" />
     <ProjectReference Include="..\TodoApp.Entity\TodoApp.Entity.csproj" />
