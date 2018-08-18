@@ -51,6 +51,14 @@ namespace TodoApp
                     };
                 });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
+                });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSpaStaticFiles(configuration =>
@@ -75,6 +83,7 @@ namespace TodoApp
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseCors("EnableCORS");
 
             app.UseMvc(routes =>
             {

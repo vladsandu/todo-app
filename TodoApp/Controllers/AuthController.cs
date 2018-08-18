@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -33,21 +34,28 @@ namespace TodoApp.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            if (!_authService.AreCredentialsValid(user)) return Unauthorized();
+            try
+            {
+                if (!_authService.AreCredentialsValid(user)) return Unauthorized();
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appOptions.Value.JwtSecretKey));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appOptions.Value.JwtSecretKey));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-            var tokenOptions = new JwtSecurityToken(
-                issuer: _appOptions.Value.AppDns,
-                audience: _appOptions.Value.AppDns,
-                claims: new List<Claim>(),
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: signinCredentials
-            );
+                var tokenOptions = new JwtSecurityToken(
+                    issuer: _appOptions.Value.AppDns,
+                    audience: _appOptions.Value.AppDns,
+                    claims: new List<Claim>{ new Claim("email", user.Email) },
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: signinCredentials
+                );
 
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return Ok(new { Token = tokenString });
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                return Ok(new {Token = tokenString});
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost, Route("register")]
