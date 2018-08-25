@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -27,7 +29,7 @@ namespace TodoApp.Controllers
         }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody]UserDto user)
+        public IActionResult Login([FromBody]UserDto user, string returnUrl = null)
         {
             if (user == null)
             {
@@ -44,13 +46,18 @@ namespace TodoApp.Controllers
                 var tokenOptions = new JwtSecurityToken(
                     issuer: _appOptions.Value.AppDns,
                     audience: _appOptions.Value.AppDns,
-                    claims: new List<Claim>{ new Claim("email", user.Email) },
+                    claims: new List<Claim> { new Claim("email", user.Email) },
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-                return Ok(new {Token = tokenString});
+
+                return Ok(new
+                {
+                    user.Email,
+                    Token = tokenString
+                });
             }
             catch (Exception e)
             {

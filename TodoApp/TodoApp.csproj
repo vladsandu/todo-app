@@ -31,12 +31,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\helpers\jwt.interceptor.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TodoApp.DataAccess\TodoApp.DataAccess.csproj" />
     <ProjectReference Include="..\TodoApp.Services\TodoApp.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\helpers\jwt.interceptor.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
