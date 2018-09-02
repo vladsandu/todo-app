@@ -28,8 +28,7 @@ export class LoginComponent {
     ).subscribe(response => {
       this.isLoading = false;
       this.resultMessage = "Login was successful!";
-      const token = (response as any).token;
-      localStorage.setItem("jwt", token);
+      localStorage.setItem('currentUser', JSON.stringify(response));
       this.router.navigate(["/"]);
     });
   }

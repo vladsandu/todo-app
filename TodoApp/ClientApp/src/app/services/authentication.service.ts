@@ -11,7 +11,7 @@ export class AuthenticationService {
   register(body: User) {
     return this.http.post('/api/auth/register', body)
       .pipe(
-        map((value : any) => value.json()),
+        map((value : any) => value),
         catchError(err => {
           return Observable.throw(err);
         }));
@@ -24,5 +24,9 @@ export class AuthenticationService {
         catchError(err => {
           return Observable.throw(err);
         }));
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
   }
 }
