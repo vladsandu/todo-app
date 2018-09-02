@@ -1,0 +1,3 @@
+﻿1. Use SCSS instead of CSS.
+2. Reorganize css files and have parent level theme css.
+3. Deactivate login/register routes if already logged in.
