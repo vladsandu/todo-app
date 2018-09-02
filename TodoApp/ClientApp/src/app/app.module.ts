@@ -37,8 +37,6 @@ NgModule({
         component: HomeLayoutComponent,
         canActivate: [AuthGuard],
         children: [
-          { path: 'counter', component: CounterComponent },
-          { path: 'fetch-data', component: FetchDataComponent }
         ]
       },
       { path: 'login', component: LoginComponent },
