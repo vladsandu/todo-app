@@ -1,15 +1,21 @@
-<h2>Register</h2>
+<div class="container-fluid">
+  <h2>Register</h2>
 
-<form #userRegister="ngForm"  (ngSubmit)="onClickSubmit(userRegister.value)">
-  <div class="container">
-    <label><b>Email</b></label>
-    <input type="text" name="email" placeholder="Enter Email" required ngModel>
+  <form #userRegister="ngForm" (ngSubmit)="onClickSubmit(userRegister.value)">
+    <div class="container">
+      <label><b>Email</b></label>
+      <input type="text" name="email" placeholder="Enter Email" required ngModel>
 
-    <label><b>Password</b></label>
-    <input type="password" name="password" placeholder="Enter Password" required ngModel>
+      <label><b>Password</b></label>
+      <input type="password" name="password" placeholder="Enter Password" required ngModel>
 
-    <button type="submit" [disabled]="isLoading">Register</button>
-  </div>
-</form>
+      <button type="submit" [disabled]="isLoading">Register</button>
+    </div>
+  </form>
 
-<div>{{resultMessage}}</div>
+  <div>{{resultMessage}}</div>
+  
+  <a [routerLink]='["/login"]'>
+    Already have an account? Click here!
+  </a>
+</div>

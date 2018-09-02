@@ -27,9 +27,9 @@
             <span class='glyphicon glyphicon-th-list'></span> Fetch data
           </a>
         </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/login"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-th-list'></span> Login
+        <li>
+          <a (click)='openLogoutPopup()'>
+            <span class='glyphicon glyphicon-th-list'></span> Logout
           </a>
         </li>
       </ul>

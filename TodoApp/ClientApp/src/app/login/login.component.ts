@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -12,10 +12,16 @@ import { Router } from "@angular/router";
 export class LoginComponent {
   resultMessage: string;
   isLoading: boolean = false;
+  returnUrl: string;
 
   constructor(
     private readonly authService: AuthenticationService,
-    private readonly router: Router) { }
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
+  ) {
+    this.authService.logout();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '../';
+  }
 
   onClickSubmit(value: User) {
     this.isLoading = true;
@@ -29,7 +35,7 @@ export class LoginComponent {
       this.isLoading = false;
       this.resultMessage = "Login was successful!";
       localStorage.setItem('currentUser', JSON.stringify(response));
-      this.router.navigate(["/"]);
+      this.router.navigate([this.returnUrl]);
     });
   }
 }
