@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
 
-  constructor(private readonly http: Http) { }
+  constructor(private readonly http: HttpClient) { }
 
   register(body: User) {
     return this.http.post('/api/auth/register', body)

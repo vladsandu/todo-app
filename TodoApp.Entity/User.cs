@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace TodoApp.Entity
 {
@@ -9,5 +7,6 @@ namespace TodoApp.Entity
         public int UserId { get; set; }
         public string Email { get; set; }
         public string EncryptedPassword { get; set; }
+        public IList<TodoItem> TodoItems { get; set; }
     }
 }
