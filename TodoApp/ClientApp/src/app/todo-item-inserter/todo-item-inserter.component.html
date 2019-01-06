@@ -1,0 +1,12 @@
+<div class="container">
+  <h1>Add a Todo item:</h1>
+  <form>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" class="form-control" id="description" #description required>
+    </div>
+
+    <button type="submit" class="btn btn-success" (click)="insertTodo(description.value)">Submit</button>
+  </form>
+</div>
+<div>{{resultMessage}}</div>

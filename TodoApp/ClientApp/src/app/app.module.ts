@@ -17,9 +17,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { TodoItemService } from "./services/todoitem.service";
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
-
-@
-NgModule({
+import { TodoItemInserterComponent } from './todo-item-inserter/todo-item-inserter.component';
+@NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
@@ -28,7 +27,8 @@ NgModule({
     RegisterComponent,
     LogoutComponent,
     TodoItemComponent,
-    TodoListComponent
+    TodoListComponent,
+    TodoItemInserterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

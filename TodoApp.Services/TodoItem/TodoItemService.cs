@@ -22,9 +22,9 @@ namespace TodoApp.Services
                 .Select(t => Mapper.Map<TodoItem, TodoItemDto>(t)).ToList();
         }
 
-        public void Add(TodoItemDto todoItemDto, UserDto userDto)
+        public void Add(TodoItemDto todoItemDto, string email)
         {
-            var user = GetUser(userDto);
+            var user = GetUser(email);
             _dbContext.Add(new TodoItem
             {
                 Description = todoItemDto.Description,
@@ -33,9 +33,9 @@ namespace TodoApp.Services
             _dbContext.SaveChanges();
         }
 
-        public void Remove(TodoItemDto todoItemDto, UserDto userDto)
+        public void Remove(TodoItemDto todoItemDto, string email)
         {
-            var user = GetUser(userDto);
+            var user = GetUser(email);
             _dbContext.Remove(new TodoItem
             {
                 Description = todoItemDto.Description,
@@ -44,9 +44,9 @@ namespace TodoApp.Services
             _dbContext.SaveChanges();
         }
 
-        private User GetUser(UserDto userDto)
+        private User GetUser(string email)
         {
-            return _dbContext.User.First(u => u.Email == userDto.Email);
+            return _dbContext.User.First(u => u.Email == email);
         }
     }
 }

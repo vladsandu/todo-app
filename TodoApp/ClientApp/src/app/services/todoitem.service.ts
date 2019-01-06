@@ -16,4 +16,12 @@ export class TodoItemService {
           return throwError(err);
         }));
   }
+
+  post(todoItem: TodoItem) {
+    return this.http.post('/api/todoitem', todoItem)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        }));
+  }
 }

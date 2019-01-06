@@ -5,6 +5,7 @@
     </div>
     <div class="col-sm-9" body-content>
       <todo-list [items]="todoItems | async"></todo-list>
+      <todo-item-inserter (shouldRefreshItems)="refreshItems()"></todo-item-inserter>
     </div>
   </div>
 </div>

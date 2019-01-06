@@ -10,11 +10,15 @@ export class HomeLayoutComponent implements AfterViewInit {
   todoItems: Observable<TodoItem[]>;
 
   constructor(private readonly todoItemService: TodoItemService) {
-    this.todoItems = this.todoItemService.get();
+    this.refreshItems();
   }
 
   ngAfterViewInit(): void {
 
   }
 
+  refreshItems() {
+    // TODO: Improve this
+    this.todoItems = this.todoItemService.get() as any;
+  }
 }

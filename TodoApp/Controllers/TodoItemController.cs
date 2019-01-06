@@ -32,5 +32,21 @@ namespace TodoApp.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPost]
+        public IActionResult Post(TodoItemDto todoItemDto)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value;
+                _todoItemService.Add(todoItemDto, email);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return StatusCode(500);
+            }
+        }
     }
 }
