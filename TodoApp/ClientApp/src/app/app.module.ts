@@ -14,6 +14,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthenticationService } from './services/authentication.service';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { AuthGuard } from './guards/auth.guard';
+import { TodoItemService } from "./services/todoitem.service";
 
 @
 NgModule({
@@ -47,6 +48,7 @@ NgModule({
   providers: [
     AuthGuard,
     AuthenticationService,
+    TodoItemService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   entryComponents: [LogoutComponent],

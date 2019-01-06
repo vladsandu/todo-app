@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using TodoApp.DTO;
 using TodoApp.Options;
 using TodoApp.Services;
 
 namespace TodoApp.Controllers
 {
-    [Route("api/[controller]"), AllowAnonymous]
-    public class AuthController : Controller
+    [Route("api/[controller]"), ApiController, AllowAnonymous]
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
         private readonly IOptions<AppOptions> _appOptions;
