@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class TodoItemService {
       .pipe(
         map((value: any) => value),
         catchError(err => {
-          return Observable.throw(err);
+          return throwError(err);
         }));
   }
 }

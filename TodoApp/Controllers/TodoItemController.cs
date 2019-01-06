@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,16 @@ namespace TodoApp.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var email = User.FindFirst(ClaimTypes.Email).Value;
-            return Ok(_todoItemService.Get(email));
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value;
+                return Ok(_todoItemService.Get(email));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return StatusCode(500);
+            }
         }
     }
 }

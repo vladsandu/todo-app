@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
@@ -11,18 +11,18 @@ export class AuthenticationService {
   register(body: User) {
     return this.http.post('/api/auth/register', body)
       .pipe(
-        map((value : any) => value),
+        map((value: any) => value),
         catchError(err => {
-          return Observable.throw(err);
+          return throwError(err);
         }));
   }
 
   login(body: User) {
     return this.http.post('/api/auth/login', body)
       .pipe(
-        map((value : any) => value.json()),
+        map((value: any) => value),
         catchError(err => {
-          return Observable.throw(err);
+          return throwError(err);
         }));
   }
 
