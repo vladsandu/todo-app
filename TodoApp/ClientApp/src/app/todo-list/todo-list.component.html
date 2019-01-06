@@ -1,5 +1,8 @@
-<ul>
-  <li *ngFor="let item of items">
-    <todo-item [item]="item"></todo-item>
-  </li>
-</ul>
+<div class="container">
+  <h3>Active todo items:</h3>
+  <ul>
+    <li *ngFor="let item of items">
+      <todo-item [item]="item"></todo-item>
+    </li>
+  </ul>
+</div>
