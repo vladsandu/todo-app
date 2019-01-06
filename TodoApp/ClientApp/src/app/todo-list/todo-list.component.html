@@ -1,3 +1,5 @@
-<p>
-  todo-list works!
-</p>
+<ul>
+  <li *ngFor="let item of items">
+    <todo-item [item]="item"></todo-item>
+  </li>
+</ul>

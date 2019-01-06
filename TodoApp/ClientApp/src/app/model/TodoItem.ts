@@ -1,0 +1,3 @@
+interface TodoItem {
+  description: string;
+}
